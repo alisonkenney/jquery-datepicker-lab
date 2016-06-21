@@ -4,6 +4,7 @@ var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
 var curr_date = today.getDate();
 var curr_month = today.getMonth();
 var curr_year = today.getFullYear();
+var user_event = "";
 
 $("#todayDate").html(m_names[curr_month] + ". " + curr_date + ", " + curr_year);
 $("#datepicker").datepicker();
@@ -13,9 +14,18 @@ function daysLeft() {
     var a = $( "#datepicker" ).datepicker('getDate').getTime();
     var b = today.getTime();
     var c = 24*60*60*1000;
-    var diffDays = Math.round((a - b)/c);
+    var diffDays = Math.floor((a - b)/c);
+    user_event = $(".endDate").val();
 
-    resultString = ("<p>You have " + diffDays + " days left!");
+    if (diffDays < 0) {
+    	resultString = ("You have selected a day in the past!");
+    }else if (diffDays === 0) {
+    	resultString = (user_event + " is tomorrow!");
+    }else {
+    	resultString = ("You have " + diffDays + " days left until" + " " + user_event + "!");
+    }
+
+
 }
 
 $("#datepicker").on("change", function(){
